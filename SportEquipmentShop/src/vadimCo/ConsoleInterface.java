@@ -21,11 +21,11 @@ public class ConsoleInterface {
     private static Scanner cin;
     private static ShopController shopController;
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         cin = new Scanner(System.in);
         shopController = new ShopController();
-        int answer = 0;
-        while (answer != 5) {
+        int answer = -1;
+        while (answer != 0) {
             System.out.println(MENU_TITLE);
             try {
                 answer = Integer.parseInt(cin.nextLine());
@@ -49,98 +49,125 @@ public class ConsoleInterface {
                         break;
                     default: {
                         System.out.println(WRONG_INPUT);
-                        cin.nextLine();
+                        //cin.nextLine();
                     }
                 }
             } catch (NumberFormatException e) {
                 System.out.println(WRONG_INPUT);
-                cin.nextLine();
+                //cin.nextLine();
+            }
+        }
+    }
+
+    private static void commonMenu() {
+        while (true) {
+            try {
+                int answer = Integer.parseInt(cin.nextLine());
+                if (answer == 0)
+                    return;
+                else System.out.println(WRONG_INPUT);
+            }catch (NumberFormatException e){
+                System.out.println(WRONG_INPUT);
             }
         }
     }
 
     private static void availableEquipment() {
         System.out.println("All available equipment: ");
-        System.out.println(shopController.getAvailableEquipment());
+        System.out.print(shopController.getAvailableEquipment());
         System.out.println(EXIT);
-        while (true){
-            int answer = Integer.parseInt(cin.nextLine());
-            if (answer == 0)
-                return;
-            else System.out.println(WRONG_INPUT);
-        }
+        commonMenu();
+//        while (true) {
+//            int answer = Integer.parseInt(cin.nextLine());
+//            if (answer == 0)
+//                return;
+//            else System.out.println(WRONG_INPUT);
+//        }
     }
 
     private static void clientsInfo() {
         System.out.println("All clients: ");
         System.out.print(shopController.getClients());
         System.out.println(EXIT);
-        while (true){
-            int answer = Integer.parseInt(cin.nextLine());
-            if (answer == 0)
-                return;
-            else System.out.println(WRONG_INPUT);
-        }
+        commonMenu();
+//        while (true) {
+//            int answer = Integer.parseInt(cin.nextLine());
+//            if (answer == 0)
+//                return;
+//            else System.out.println(WRONG_INPUT);
+//        }
     }
 
     private static void rentedEquipment() {
         System.out.println("All rented equipment: ");
         System.out.print(shopController.getRentedEquipment());
         System.out.println(EXIT);
-        while (true){
-            int answer = Integer.parseInt(cin.nextLine());
-            if (answer == 0)
-                return;
-            else System.out.println(WRONG_INPUT);
-        }
+        commonMenu();
+//        while (true) {
+//            try {
+//                int answer = Integer.parseInt(cin.nextLine());
+//                if (answer == 0)
+//                    return;
+//                else System.out.println(WRONG_INPUT);
+//            } catch ()
+//        }
     }
 
     private static void allEquipment() {
-        System.out.println("All available equipment: ");
+        System.out.println("All equipment: ");
         System.out.print(shopController.getAllEquipment());
         System.out.println(EXIT);
-        while (true){
-            int answer = Integer.parseInt(cin.nextLine());
-            if (answer == 0)
-                return;
-            else System.out.println(WRONG_INPUT);
-        }
+        commonMenu();
+//        while (true) {
+//            int answer = Integer.parseInt(cin.nextLine());
+//            if (answer == 0)
+//                return;
+//            else System.out.println(WRONG_INPUT);
+//        }
     }
 
     private static void rentNewUnit() {
-        while (true){
-            System.out.println("Please choose a person to rent an equipment: ");
-            System.out.print(shopController.getClients());
-            int amount = shopController.getClientsNumber();
-            System.out.println((amount+1)+" - Add new person");
-            System.out.println(EXIT);
-            System.out.println(CHOICE);
-            int number = Integer.parseInt(cin.nextLine());
-            if (number>=1 && number <=amount){
-                shopController.choosePerson(number-1);
-                chooseEquipment();
+        while (true) {
+            try {
+                System.out.println("Please choose a person to rent an equipment: ");
+                System.out.print(shopController.getClients());
+                int amount = shopController.getClientsNumber();
+                System.out.println((amount + 1) + " - Add new person");
+                System.out.println(EXIT);
+                System.out.println(CHOICE);
+                int number = Integer.parseInt(cin.nextLine());
+                if (number >= 1 && number <= amount) {
+                    if (shopController.choosePerson(number - 1))
+                        chooseEquipment();
+                    else
+                        System.out.println("Current person can't rent new equipment. Ask to give back some equipment.");
+                } else if (number == 0) return;
+                else if (number == amount + 1)
+                    shopController.addNewPerson(cin);
+                else System.out.println(WRONG_INPUT);
+            }catch (NumberFormatException e){
+                System.out.println(WRONG_INPUT);
             }
-            else if (number == 0) return;
-            else if (number == amount+1)
-                shopController.addNewPerson(cin);
-            else System.out.println(WRONG_INPUT);
         }
     }
 
     private static void chooseEquipment() {
-        System.out.println("Please choose equipment: ");
-        System.out.print(shopController.getAvailableEquipmentList());
-        int amount = shopController.getEquipmentNumber();
-        System.out.println(EXIT);
-        while (true){
-            System.out.println(CHOICE);
-            int number = Integer.parseInt(cin.nextLine());
-            if (number>=1 && number <=amount){
-                shopController.rentUnit(number-1);
-                return;
+        while (true) {
+            try {
+                System.out.println("Please choose equipment: ");
+                System.out.print(shopController.getAvailableEquipmentList());
+                int amount = shopController.getEquipmentNumber();
+                System.out.println(EXIT);
+                System.out.println(CHOICE);
+                int number = Integer.parseInt(cin.nextLine());
+                if (number >= 1 && number <= amount) {
+                    shopController.rentUnit(number - 1);
+                    return;
+                } else if (number == 0) return;
+                else System.out.println(WRONG_INPUT);
+            } catch (NumberFormatException e) {
+                System.out.println(WRONG_INPUT);
             }
-            else if (number == 0) return;
-            else System.out.println(WRONG_INPUT);
         }
     }
 }

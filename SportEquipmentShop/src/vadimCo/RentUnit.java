@@ -1,5 +1,7 @@
 package vadimCo;
 
+import java.util.Arrays;
+
 /**
  * Created by Вадим on 12.04.2017.
  */
@@ -26,6 +28,7 @@ public class RentUnit {
             if(units[i]==null){
                 units[i] = equipment;
                 currentNumberOfUnits++;
+                return;
             }
         }
     }
@@ -45,5 +48,19 @@ public class RentUnit {
     public void deleteUnit(int number){
         currentNumberOfUnits--;
         units[number] = null;
+    }
+
+    @Override
+    public String toString() {
+        String str = "";
+        for(int i =0; i< MAX_ELEMENTS_NUMBER; i++){
+            if (units[i]!=null){
+                str+=units[i].toString()+',';
+            }
+        }
+        if (str.length()!=0)
+            return str.substring(0,str.length()-1);
+        else
+            return "no equipment rented";
     }
 }

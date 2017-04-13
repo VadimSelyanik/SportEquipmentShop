@@ -40,11 +40,8 @@ public class Person implements InitializedFromString{
 
     @Override
     public String toString() {
-        return "Person{" +
-                "surname='" + surname + '\'' +
-                ", name='" + name + '\'' +
-                ", rentUnit=" + rentUnit +
-                '}';
+        return surname + ' ' + name + ": " +
+                rentUnit.toString();
     }
 
     @Override

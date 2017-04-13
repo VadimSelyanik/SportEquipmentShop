@@ -37,11 +37,9 @@ public class SportEquipment implements InitializedFromString, Comparable<SportEq
 
     @Override
     public String toString() {
-        return "SportEquipment{" +
-                "category=" + category +
-                ", title='" + title + '\'' +
-                ", price=" + price +
-                '}';
+        return category +
+                ". " + title +
+                ". Price per day: " + price;
     }
 
     @Override
