@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 /**
  * Created by Вадим on 12.04.2017.
  */
-public class Person implements InitializedFromString{
+public class Person implements InitializedFromString {
     private String surname;
     private String name;
     private RentUnit rentUnit;
@@ -46,14 +46,25 @@ public class Person implements InitializedFromString{
 
     @Override
     public void setParametersFromString(String str) {
-        StringTokenizer strTok = new StringTokenizer(str,"/");
+        StringTokenizer strTok = new StringTokenizer(str, "/");
         setSurname(strTok.nextToken());
         setName(strTok.nextToken());
-        while (strTok.hasMoreTokens()){
+        while (strTok.hasMoreTokens()) {
             SportEquipment equipment = new SportEquipment();
             equipment.setParametersFromString(strTok.nextToken());
-            rentUnit = new RentUnit();
             rentUnit.addUnit(equipment);
         }
+    }
+
+    @Override
+    public String getStringOfParameters() {
+        String str = surname + '/' + name + '/';
+        SportEquipment[] units = getRentUnit().getUnits();
+        for (int i = 0; i < units.length; i++) {
+            if (units[i] != null) {
+                str += units[i].getStringOfParameters() + '/';
+            }
+        }
+        return str;
     }
 }

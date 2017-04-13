@@ -102,4 +102,7 @@ public class ShopController {
         return shop.getAvailableEquipmentList().size();
     }
 
+    public void saveInformation() {
+        shop.saveShopInfo();
+    }
 }

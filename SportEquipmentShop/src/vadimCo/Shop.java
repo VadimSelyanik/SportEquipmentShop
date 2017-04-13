@@ -1,8 +1,6 @@
 package vadimCo;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -12,6 +10,8 @@ public class Shop {
     private Map<SportEquipment, Integer> goods;
     private ArrayList<Person> clients;
     private Map<SportEquipment, Integer> availableEquipment;
+    private final String shopGoodsInfo = "ShopGoodsInfo";
+    private final String shopClientsInfo = "ShopClientsInfo";
 
     public ArrayList<Person> getClients() {
         return clients;
@@ -39,7 +39,7 @@ public class Shop {
 
         Map<SportEquipment, Integer> goods = new HashMap<>();
         try {
-            Scanner cinFile = new Scanner(new InputStreamReader(new FileInputStream("ShopGoodsInfo")));
+            Scanner cinFile = new Scanner(new InputStreamReader(new FileInputStream(shopGoodsInfo)));
             while (cinFile.hasNext()) {
                 SportEquipment equipment = new SportEquipment();
                 equipment.setParametersFromString(cinFile.nextLine());
@@ -53,7 +53,7 @@ public class Shop {
 
         ArrayList<Person> clients = new ArrayList<>();
         try {
-            Scanner cinFile = new Scanner(new InputStreamReader(new FileInputStream("ShopClientsInfo")));
+            Scanner cinFile = new Scanner(new InputStreamReader(new FileInputStream(shopClientsInfo)));
             while (cinFile.hasNext()) {
                 Person person = new Person();
                 person.setParametersFromString(cinFile.nextLine());
@@ -132,5 +132,18 @@ public class Shop {
 
     public void addNewPerson(Person person) {
         clients.add(person);
+    }
+
+    public void saveShopInfo() {
+        checkAvailableEquipment();
+        try {
+            FileWriter fw = new FileWriter(shopClientsInfo);
+            for (Person person : clients) {
+                fw.write(person.getStringOfParameters() + '\n');
+            }
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

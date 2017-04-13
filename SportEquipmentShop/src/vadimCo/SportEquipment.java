@@ -43,19 +43,45 @@ public class SportEquipment implements InitializedFromString, Comparable<SportEq
     }
 
     @Override
-    public void setParametersFromString(String str){
-        StringTokenizer strTok = new StringTokenizer(str,";");
+    public void setParametersFromString(String str) {
+        StringTokenizer strTok = new StringTokenizer(str, ";");
         setCategory(Category.valueOf(strTok.nextToken()));
         setTitle(strTok.nextToken());
         setPrice(Integer.parseInt(strTok.nextToken()));
     }
 
     @Override
+    public String getStringOfParameters() {
+        return category.toString() + ';' + title + ';' + price;
+    }
+
+    @Override
     public int compareTo(SportEquipment o) {
-        if (title.compareTo(o.getTitle())==0)
-            if (price == o.getPrice())
-                return category.compareTo(o.getCategory());
-            else return ((Integer)price).compareTo(o.getPrice());
-        else return title.compareTo(o.getTitle());
+        if (category.toString().compareTo(o.getCategory().toString()) == 0)
+            if (title.compareTo(o.getTitle()) == 0)
+                return ((Integer) price).compareTo(o.getPrice());
+            else return title.compareTo(o.getTitle());
+        else return category.toString().compareTo(o.getCategory().toString());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SportEquipment equipment = (SportEquipment) o;
+
+        if (price != equipment.price) return false;
+        if (category != equipment.category) return false;
+        return !(title != null ? !title.equals(equipment.title) : equipment.title != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = category != null ? category.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + price;
+        return result;
     }
 }

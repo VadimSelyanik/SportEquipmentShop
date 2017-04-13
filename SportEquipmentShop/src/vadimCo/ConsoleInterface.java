@@ -1,6 +1,5 @@
 package vadimCo;
 
-import javax.sound.midi.Soundbank;
 import java.util.Scanner;
 
 /**
@@ -14,13 +13,13 @@ public class ConsoleInterface {
             "4 - Show available equipment" + "\n" +
             "5 - Show clients info" + "\n" +
             "0 - Exit";
-    private static final String SUB_MENU_TITLE = "1 - Сражение\n2 - Инвентарь\n3 - Сохранить и выйти\n4 - Выйти";
     private static final String WRONG_INPUT = "Wrong input parameters. Please enter again.";
     private static final String EXIT = "0 - Exit.";
-    private static final String CHOICE = "You choice: ";
+    private static final String CHOICE = "Your choice: ";
     private static Scanner cin;
     private static ShopController shopController;
 
+    //Start menu
     public static void main(String[] args) {
         cin = new Scanner(System.in);
         shopController = new ShopController();
@@ -31,6 +30,7 @@ public class ConsoleInterface {
                 answer = Integer.parseInt(cin.nextLine());
                 switch (answer) {
                     case 0:
+                        shopController.saveInformation();
                         return;
                     case 1:
                         rentNewUnit();
@@ -49,16 +49,15 @@ public class ConsoleInterface {
                         break;
                     default: {
                         System.out.println(WRONG_INPUT);
-                        //cin.nextLine();
                     }
                 }
             } catch (NumberFormatException e) {
                 System.out.println(WRONG_INPUT);
-                //cin.nextLine();
             }
         }
     }
 
+    //Commonly used part of menus
     private static void commonMenu() {
         while (true) {
             try {
@@ -66,66 +65,45 @@ public class ConsoleInterface {
                 if (answer == 0)
                     return;
                 else System.out.println(WRONG_INPUT);
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println(WRONG_INPUT);
             }
         }
     }
 
+    //Only non rented equipment menu
     private static void availableEquipment() {
         System.out.println("All available equipment: ");
         System.out.print(shopController.getAvailableEquipment());
         System.out.println(EXIT);
         commonMenu();
-//        while (true) {
-//            int answer = Integer.parseInt(cin.nextLine());
-//            if (answer == 0)
-//                return;
-//            else System.out.println(WRONG_INPUT);
-//        }
     }
 
+    //View with all information about clients
     private static void clientsInfo() {
         System.out.println("All clients: ");
         System.out.print(shopController.getClients());
         System.out.println(EXIT);
         commonMenu();
-//        while (true) {
-//            int answer = Integer.parseInt(cin.nextLine());
-//            if (answer == 0)
-//                return;
-//            else System.out.println(WRONG_INPUT);
-//        }
     }
 
+    //View with information about rented equipment
     private static void rentedEquipment() {
         System.out.println("All rented equipment: ");
         System.out.print(shopController.getRentedEquipment());
         System.out.println(EXIT);
         commonMenu();
-//        while (true) {
-//            try {
-//                int answer = Integer.parseInt(cin.nextLine());
-//                if (answer == 0)
-//                    return;
-//                else System.out.println(WRONG_INPUT);
-//            } catch ()
-//        }
     }
 
+    //View with all equipment
     private static void allEquipment() {
         System.out.println("All equipment: ");
         System.out.print(shopController.getAllEquipment());
         System.out.println(EXIT);
         commonMenu();
-//        while (true) {
-//            int answer = Integer.parseInt(cin.nextLine());
-//            if (answer == 0)
-//                return;
-//            else System.out.println(WRONG_INPUT);
-//        }
     }
 
+    //Renting new unit view with the list of all clients
     private static void rentNewUnit() {
         while (true) {
             try {
@@ -145,7 +123,7 @@ public class ConsoleInterface {
                 else if (number == amount + 1)
                     shopController.addNewPerson(cin);
                 else System.out.println(WRONG_INPUT);
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println(WRONG_INPUT);
             }
         }
